@@ -1,0 +1,127 @@
+buildscript {
+    repositories {
+        maven { url = 'https://maven.minecraftforge.net/' }
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+    }
+}
+apply plugin: 'net.minecraftforge.gradle'
+
+version = '0.0.0'
+group = 'top.seraphjack'
+archivesBaseName = 'Chat2RabbitMQ-1.16'
+
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+
+/*
+if (System.getenv().BUILD_NUMBER != null) {
+    version += "-build${System.getenv().BUILD_NUMBER}"
+}
+ */
+
+minecraft {
+    mappings channel: 'snapshot', version: '20201028-1.16.3'
+    runs {
+        client {
+            workingDirectory project.file('run')
+
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+
+            mods {
+                chat2rabbitmq {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('run')
+
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            property 'forge.logging.console.level', 'debug'
+
+            mods {
+                chat2rabbitmq {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        data {
+            workingDirectory project.file('run')
+
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+
+            args '--mod', 'chat2rabbitmq', '--all', '--output', file('src/generated/resources/')
+
+            mods {
+                chat2rabbitmq {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+configurations {
+    shade
+    compile.extendsFrom shade
+}
+
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.16.4-35.1.0'
+
+    shade 'com.rabbitmq:amqp-client:5.12.0'
+}
+
+allprojects {
+    repositories {
+        maven { url = 'https://maven.minecraftforge.net/' }
+        mavenCentral()
+        jcenter()
+    }
+}
+
+processResources {
+    from(sourceSets.main.resources.srcDirs) {
+        include 'META-INF/mods.toml'
+        expand 'version': project.version
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'META-INF/mods.toml'
+    }
+}
+
+tasks.jar.mustRunAfter(processResources)
+
+jar {
+    manifest {
+        attributes([
+                "Specification-Title"     : "Chat2RabbitMQ",
+                "Specification-Vendor"    : "SeraphJACK",
+                "Specification-Version"   : "1",
+                "Implementation-Title"    : project.name,
+                "Implementation-Version"  : "${version}",
+                "Implementation-Vendor"   : "",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+
+    from(configurations.shade.collect {
+        it.isDirectory() ? it : zipTree(it)
+    }) {
+        exclude 'META-INF/**'
+    }
+}

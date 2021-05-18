@@ -1,0 +1,6 @@
+{
+    "pack": {
+        "description": "chat2rabbitmq resources",
+        "pack_format": 6
+    }
+}

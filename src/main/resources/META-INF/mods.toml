@@ -1,0 +1,9 @@
+modLoader="javafml"
+loaderVersion="[34,)"
+license="MIT"
+[[mods]]
+modId="chat2rabbitmq"
+version="${version}"
+displayName="Chat2RabbitMQ"
+authors="Seraph_JACK"
+description=""
