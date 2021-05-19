@@ -11,6 +11,7 @@ import net.minecraftforge.fml.network.FMLNetworkConstants;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import top.seraphjack.chat2rabbitmq.message.MQManager;
 
 
 @Mod(ModContainer.MODID)
@@ -30,7 +31,7 @@ public final class ModContainer {
 
     void serverStart(FMLServerStartedEvent event) {
         try {
-            MQManager.init(Config.uri.get(), Config.postExchange.get());
+            MQManager.init(Config.uri.get(), Config.postExchange.get(), Config.receiveExchange.get());
         } catch (Exception e) {
             logger.error("Failed to initialize MQ manager", e);
         }

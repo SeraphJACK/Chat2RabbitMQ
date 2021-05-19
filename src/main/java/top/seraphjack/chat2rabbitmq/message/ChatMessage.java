@@ -1,4 +1,4 @@
-package top.seraphjack.chat2rabbitmq;
+package top.seraphjack.chat2rabbitmq.message;
 
 import net.minecraft.entity.player.ServerPlayerEntity;
 
