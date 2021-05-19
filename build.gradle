@@ -83,6 +83,7 @@ dependencies {
     minecraft 'net.minecraftforge:forge:1.16.4-35.1.0'
 
     shade 'com.rabbitmq:amqp-client:5.12.0'
+    shade 'org.slf4j:slf4j-simple:1.7.+'
 }
 
 allprojects {
