@@ -41,7 +41,7 @@ public final class ModContainer {
         try {
             MQManager.instance().stop();
         } catch (Exception e) {
-            logger.error("Failed to stop mq manager", e);
+            logger.error("Failed to stop MQ manager", e);
         }
     }
 }
