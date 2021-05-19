@@ -9,6 +9,10 @@ public final class ChatMessage {
     String username, displayName, message;
     long time;
 
+    @SuppressWarnings("unused")
+    public ChatMessage() {
+    }
+
     public ChatMessage(ServerPlayerEntity player, String msg) {
         this.uuid = player.getUniqueID();
         this.username = player.getScoreboardName();
